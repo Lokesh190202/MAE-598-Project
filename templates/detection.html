@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-time Traffic Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto p-6">
+        <header class="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-lg shadow-lg mb-6 text-center">
+            <h1 class="text-4xl font-extrabold">Traffic Analysis Dashboard</h1>
+            <p class="text-lg mt-2">Real-time insights with congestion heat maps</p>
+        </header>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Video Feed -->
+            <div class="lg:col-span-2 bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                <h2 class="text-xl font-semibold p-4 bg-gray-700">Live Video Feed</h2>
+                <img src="{{ url_for('video_feed') }}" class="w-full h-auto" onerror="this.src='https://via.placeholder.com/800x600?text=Video+Feed+Not+Available';">
+            </div>
+            <!-- Metrics and Heatmap -->
+            <div class="lg:col-span-1 space-y-6">
+                
+                <!-- Metrics -->
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-blue-400">Left Lane Metrics</h2>
+                    <div class="space-y-2">
+                        <p class="text-lg"><span class="font-bold">Total Vehicles:</span> <span id="left_vehicles" class="text-blue-300">0</span></p>
+                        <p class="text-lg"><span class="font-bold">Traffic Intensity:</span> <span id="left_intensity" class="text-blue-300">Smooth</span></p>
+                        <p class="text-lg"><span class="font-bold">Density:</span> <span id="left_density" class="text-blue-300">0</span> vehicles/km²</p>
+                        <p class="text-lg"><span class="font-bold">Avg Speed:</span> <span id="left_speed" class="text-blue-300">0</span> pixels/s</p>
+                    </div>
+                </div>
+                <div class="bg-gray-800 p-6 rounded-lg shadow-lg">
+                    <h2 class="text-xl font-semibold mb-4 text-green-400">Right Lane Metrics</h2>
+                    <div class="space-y-2">
+                        <p class="text-lg"><span class="font-bold">Total Vehicles:</span> <span id="right_vehicles" class="text-green-300">0</span></p>
+                        <p class="text-lg"><span class="font-bold">Traffic Intensity:</span> <span id="right_intensity" class="text-green-300">Smooth</span></p>
+                        <p class="text-lg"><span class="font-bold">Density:</span> <span id="right_density" class="text-green-300">0</span> vehicles/km²</p>
+                        <p class="text-lg"><span class="font-bold">Avg Speed:</span> <span id="right_speed" class="text-green-300">0</span> pixels/s</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateMetrics() {
+            fetch('/metrics')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('left_vehicles').textContent = data.left_vehicles;
+                    document.getElementById('left_intensity').textContent = data.left_intensity;
+                    document.getElementById('left_density').textContent = data.left_density;
+                    document.getElementById('left_speed').textContent = data.left_speed;
+                    document.getElementById('right_vehicles').textContent = data.right_vehicles;
+                    document.getElementById('right_intensity').textContent = data.right_intensity;
+                    document.getElementById('right_density').textContent = data.right_density;
+                    document.getElementById('right_speed').textContent = data.right_speed;
+                    document.getElementById('peak_vehicle_count').textContent = data.peak_vehicle_count;
+                })
+                .catch(error => console.error('Error fetching metrics:', error));
+        }
+        setInterval(updateMetrics, 2000);
+        updateMetrics();
+
+        // Refresh heatmap
+        function refreshHeatmap() {
+            const heatmapImg = document.querySelector('img[src="{{ url_for('heatmap_feed') }}"]');
+            heatmapImg.src = "{{ url_for('heatmap_feed') }}?" + new Date().getTime();
+        }
+        setInterval(refreshHeatmap, 1000);
+    </script>
+</body>
+</html>

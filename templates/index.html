@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Analysis - Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto p-6">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-blue-600 to-purple-600 p-6 rounded-lg shadow-lg mb-6 text-center">
+            <h1 class="text-4xl font-extrabold">Traffic Analysis Platform</h1>
+            <p class="text-lg mt-2">Upload a video to analyze traffic in real-time</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Upload Form -->
+            <div class="lg:col-span-2 bg-gray-800 rounded-lg shadow-lg p-8">
+                <h2 class="text-2xl font-semibold mb-4 text-blue-400">Upload Traffic Video</h2>
+                <form method="post" enctype="multipart/form-data" class="flex flex-col items-center space-y-4">
+                    <input type="file" name="video" accept="video/*" required class="w-full text-gray-300 bg-gray-700 border border-gray-600 rounded-lg p-2 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-blue-500 file:text-white hover:file:bg-blue-600">
+                    <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition duration-300">Analyze Video</button>
+                </form>
+            </div>
+
+            <!-- Project Notes -->
+            <div class="lg:col-span-1 bg-gray-800 rounded-lg shadow-lg p-6">
+                <h2 class="text-xl font-semibold mb-4 text-green-400">About Our Project</h2>
+                <div class="text-gray-300 space-y-4">
+                    <p class="text-sm">
+                        Our Traffic Analysis Platform leverages advanced computer vision and machine learning to provide real-time insights into traffic conditions. Powered by the YOLO model, it detects and tracks vehicles, calculates lane densities, and visualizes congestion through intuitive heatmaps.
+                    </p>
+                    <p class="text-sm">
+                        <strong>Key Features:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Real-time vehicle detection and tracking</li>
+                            <li>Dynamic traffic light simulation based on congestion</li>
+                            <li>Congestion heatmaps (Green: Low, Red: High)</li>
+                            <li>Detailed metrics on vehicle count, density, and speed</li>
+                        </ul>
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
